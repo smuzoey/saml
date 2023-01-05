@@ -360,10 +360,10 @@ func NewIdpAuthnRequest(idp *IdentityProvider, r *http.Request) (*IdpAuthnReques
 		if err != nil {
 			return nil, fmt.Errorf("cannot decode request: %s", err)
 		}
-		req.RequestBuffer, err = ioutil.ReadAll(flate.NewReader(bytes.NewReader(compressedRequest)))
-		if err != nil {
-			return nil, fmt.Errorf("cannot decompress request: %s", err)
-		}
+		req.RequestBuffer, _ = ioutil.ReadAll(flate.NewReader(bytes.NewReader(compressedRequest)))
+		//if err != nil {
+		//	return nil, fmt.Errorf("cannot decompress request: %s", err)
+		//}
 		req.RelayState = r.URL.Query().Get("RelayState")
 	case "POST":
 		if err := r.ParseForm(); err != nil {
